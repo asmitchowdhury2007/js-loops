@@ -38,5 +38,55 @@
  *   // => { selected: [{ color: "golden", length: 5, cost: 250 }], totalLength: 5, totalCost: 250 }
  */
 export function diwaliLightsPlan(lightStrings, budget) {
-  // Your code here
+  if(Array.isArray(lightStrings) && lightStrings.length > 0 && typeof (budget)==="number" && budget > 0){
+    let result = {};
+    let selected = [];
+    let totalLength = 0;
+    let totalCost = 0;
+    for(let i = 0; i<lightStrings.length; i++){
+      
+      totalLength += lightStrings[i].length;
+      if (lightStrings[i].color === "golden"){
+        totalCost += 50*(lightStrings[i].length);
+        lightStrings[i].cost = 50*(lightStrings[i].length);
+      }
+      else if (lightStrings[i].color === "multicolor"){
+        totalCost += 40*(lightStrings[i].length);
+        lightStrings[i].cost = 40*(lightStrings[i].length);
+      }
+      else if (lightStrings[i].color === "white"){
+        totalCost += 30*(lightStrings[i].length);
+        lightStrings[i].cost = 30*(lightStrings[i].length);
+      }
+      else{
+        totalCost += 35*(lightStrings[i].length);
+        lightStrings[i].cost = 35*(lightStrings[i].length);
+      }
+      selected.push(lightStrings[i]);
+    }
+    while (totalCost > budget){
+      let remove_item = selected.pop();
+      if (remove_item.color === "golden"){
+        totalCost = totalCost - 50*(remove_item.length);
+        totalLength = totalLength - remove_item.length;
+      }
+      else if (remove_item.color === "multicolor"){
+        totalCost = totalCost - 40*(remove_item.length);
+        totalLength = totalLength - remove_item.length;
+      }
+      else if (remove_item.color === "white"){
+        totalCost = totalCost - 30*(remove_item.length);
+        totalLength = totalLength - remove_item.length;
+      }
+      else{
+        totalCost = totalCost - 35*(remove_item.length);
+        totalLength = totalLength - remove_item.length;
+      }
+    }
+    result.selected = selected;
+    result.totalLength = totalLength;
+    result.totalCost = totalCost;
+    return result;
+  }
+  return { selected: [], totalLength: 0, totalCost: 0 }
 }
